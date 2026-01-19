@@ -17,7 +17,7 @@ class NetworkAPIServices extends BaseAPIServices {
       jsonResponse = returnJsonResponse(response);
       return jsonResponse;
     } on SocketException {
-      FetchDataException();
+      throw FetchDataException();
     }
   }
 
@@ -25,9 +25,10 @@ class NetworkAPIServices extends BaseAPIServices {
     switch (response.statusCode) {
       case 200:
         dynamic jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
         return jsonResponse;
       case 400:
-        BadRequestException();
+        throw BadRequestException();
     }
   }
 }

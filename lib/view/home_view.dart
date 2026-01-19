@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/resources/widgets/modal_bottom_sheet.dart';
 import 'package:weather_app/utils/utils.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/view_model/show_weather_view_model.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,44 +40,63 @@ class HomeView extends StatelessWidget {
               fit: BoxFit.fitWidth,
             ),
           ),
-          Container(
-            height: screenHeight,
-            width: screenWidth,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(height: screenHeight * 0.1),
-                  Text(
-                    "Montreal",
-                    style: TextStyle(color: Colors.white, fontSize: 45),
+          Consumer<ShowWeatherViewModel>(
+            builder: (context, value, child) {
+              if(value.loading){
+                return Center(child: CircularProgressIndicator(),);
+              }
+              if(value.error != null){
+              return Text(value.error!.toString());
+              }
+              if (value.weather == null) {
+                return const Center(
+                  child: Text(
+                    "No weather data available",
+                    style: TextStyle(color: Colors.black,fontSize: 30),
                   ),
-                  Text(
-                    "19",
-                    style: TextStyle(color: Colors.white, fontSize: 55),
-                  ),
-                  Text(
-                    "Mostly Clear",
-                    style: TextStyle(color: Colors.white54, fontSize: 20),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                );
+              }
+
+              return Container(
+                height: screenHeight,
+                width: screenWidth,
+                child: SafeArea(
+                  child: Column(
                     children: [
-                      Text("H:24", style: TextStyle(color: Colors.white)),
-                      SizedBox(width: screenWidth * 0.05),
-                      Text("L:18", style: TextStyle(color: Colors.white)),
+                      SizedBox(height: screenHeight * 0.1),
+                      Text(
+                        value.weather!.days![0].temp.toString(),
+                        style: TextStyle(color: Colors.black, fontSize: 45),
+                      ),
+                      Text(
+                        "19",
+                        style: TextStyle(color: Colors.white, fontSize: 55),
+                      ),
+                      Text(
+                        "Mostly Clear",
+                        style: TextStyle(color: Colors.white54, fontSize: 20),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("H:24", style: TextStyle(color: Colors.white)),
+                          SizedBox(width: screenWidth * 0.05),
+                          Text("L:18", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          CustomShowModalBottomSheet().showWeatherBottomSheet(
+                            context,
+                          );
+                        },
+                        child: Text("Press"),
+                      ),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      CustomShowModalBottomSheet().showWeatherBottomSheet(
-                        context,
-                      );
-                    },
-                    child: Text("Press"),
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -7,11 +7,11 @@ class WeatherRepo {
 
   Future<dynamic> APIData(
     String Location,
-    DateTime startDate,
-    DateTime endDate,
-  ) {
+    String startDate,
+    String endDate,
+  ) async{
     try{
-      dynamic response = apiServices.getGetAPIService(
+      dynamic response = await apiServices.getGetAPIService(
         WeatherAppUrlService.returnURL(Location, startDate, endDate),
       );
       return response;

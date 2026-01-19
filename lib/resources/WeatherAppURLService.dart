@@ -5,9 +5,9 @@ class WeatherAppUrlService {
 
   static String returnURL(
     String Location,
-    DateTime startDate,
-    DateTime endDate,
+    String startDate,
+    String endDate,
   ) {
-    return '$BaseUrl+/$Location/$startDate/$endDate?key=$API_KEY&include=days&elements=temp,tempmax,tempmin,conditions';
+    return '$BaseUrl/$Location/$startDate/$endDate?key=$API_KEY&include=days&elements=temp,tempmax,tempmin,conditions';
   }
 }
