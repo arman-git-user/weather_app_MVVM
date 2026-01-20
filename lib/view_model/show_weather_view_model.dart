@@ -5,6 +5,7 @@ import 'package:weather_app/repository/weather_repo.dart';
 import '../models/weather_location_model.dart';
 
 class ShowWeatherViewModel extends ChangeNotifier {
+
   WeatherRepo weatherRepo = WeatherRepo();
   WeatherLocationModel? weather;
   String location = "Pakistan,Karachi";
@@ -19,10 +20,11 @@ class ShowWeatherViewModel extends ChangeNotifier {
     notifyListeners();
     try {
       final data = await weatherRepo.APIData(location, startDate, endDate);
-
+      print(data);
       weather = WeatherLocationModel.fromJson(data);
     } catch (e) {
     error =  e.toString();
+
     }
     _isLoading = false;
     notifyListeners();

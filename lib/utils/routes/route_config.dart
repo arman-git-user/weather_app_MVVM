@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/api_call_demo_view.dart';
+import 'package:weather_app/view/demo_view.dart';
 import 'package:weather_app/view/home_view.dart';
 import 'package:weather_app/view/search_view.dart';
 

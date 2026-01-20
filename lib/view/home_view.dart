@@ -4,13 +4,20 @@ import 'package:weather_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/view_model/show_weather_view_model.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white38.withValues(alpha: 0.1),
@@ -45,9 +52,9 @@ class HomeView extends StatelessWidget {
               if(value.loading){
                 return Center(child: CircularProgressIndicator(),);
               }
-              if(value.error != null){
-              return Text(value.error!.toString());
-              }
+              // if(value.error != null){
+              // return Text(value.error!.toString());
+              // }
               if (value.weather == null) {
                 return const Center(
                   child: Text(
@@ -66,7 +73,8 @@ class HomeView extends StatelessWidget {
                       SizedBox(height: screenHeight * 0.1),
                       Text(
                         value.weather!.days![0].temp.toString(),
-                        style: TextStyle(color: Colors.black, fontSize: 45),
+
+                        style: TextStyle(color: Colors.black, fontSize: 1),
                       ),
                       Text(
                         "19",

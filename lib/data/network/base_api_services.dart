@@ -1,3 +1,3 @@
 abstract class BaseAPIServices{
-  Future<dynamic> getGetAPIService(String Url);
+  Future<Map<String,dynamic>> getGetAPIService(String Url);
 }
