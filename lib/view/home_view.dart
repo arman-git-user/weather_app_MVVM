@@ -12,7 +12,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -49,17 +48,17 @@ class _HomeViewState extends State<HomeView> {
           ),
           Consumer<ShowWeatherViewModel>(
             builder: (context, value, child) {
-              if(value.loading){
-                return Center(child: CircularProgressIndicator(),);
+              if (value.loading) {
+                return Center(child: CircularProgressIndicator());
               }
-              // if(value.error != null){
-              // return Text(value.error!.toString());
-              // }
+              if (value.error != null) {
+                return Text(value.error!.toString());
+              }
               if (value.weather == null) {
                 return const Center(
                   child: Text(
                     "No weather data available",
-                    style: TextStyle(color: Colors.black,fontSize: 30),
+                    style: TextStyle(color: Colors.black, fontSize: 30),
                   ),
                 );
               }
@@ -72,12 +71,11 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       SizedBox(height: screenHeight * 0.1),
                       Text(
-                        value.weather!.days![0].temp.toString(),
-
-                        style: TextStyle(color: Colors.black, fontSize: 1),
+                        value.weather!.address.toString(),
+                        style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
                       Text(
-                        "19",
+                        value.weather!.days![0].temp.toString(),
                         style: TextStyle(color: Colors.white, fontSize: 55),
                       ),
                       Text(

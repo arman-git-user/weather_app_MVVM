@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ShowWeatherViewModel>(
-          create: (_) => ShowWeatherViewModel()..fetchWeather,
+          create: (_) => ShowWeatherViewModel()..FetchWeather(),
         ),
       ],
       child: MaterialApp.router(

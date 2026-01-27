@@ -1,14 +1,14 @@
-class WeatherLocationModel {
+class WeatherModel {
   int? queryCost;
   double? latitude;
   double? longitude;
   String? resolvedAddress;
   String? address;
   String? timezone;
-  int? tzoffset;
+  double? tzoffset;
   List<Days>? days;
 
-  WeatherLocationModel(
+  WeatherModel(
       {this.queryCost,
         this.latitude,
         this.longitude,
@@ -18,7 +18,7 @@ class WeatherLocationModel {
         this.tzoffset,
         this.days});
 
-  WeatherLocationModel.fromJson(Map<String, dynamic> json) {
+  WeatherModel.fromJson(Map<String, dynamic> json) {
     queryCost = json['queryCost'];
     latitude = json['latitude'];
     longitude = json['longitude'];

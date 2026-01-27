@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 
 class NetworkAPIServices extends BaseAPIServices {
   @override
-   Future<Map<String,dynamic>> getGetAPIService(String Url) async {
+   Future<dynamic> getGetAPIService(String Url) async {
     // TODO: implement getGetAPIService
-    Map<String,dynamic> jsonResponse;
+    dynamic jsonResponse;
     try {
       final response = await http
           .get(Uri.parse(Url))
@@ -21,11 +21,12 @@ class NetworkAPIServices extends BaseAPIServices {
     }
   }
 
-  Map<String,dynamic> returnJsonResponse(http.Response response) {
+   returnJsonResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
         Map<String,dynamic> jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
+        // print(jsonResponse);
+
         return jsonResponse;
       case 400:
         throw BadRequestException();
