@@ -4,6 +4,8 @@ import 'package:weather_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/view_model/show_weather_view_model.dart';
 
+import '../resources/widgets/another_modal_bottom_sheet.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -16,7 +18,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-
+    print(Utils.weekDays().length);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white38.withValues(alpha: 0.1),
@@ -75,25 +77,99 @@ class _HomeViewState extends State<HomeView> {
                         style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
                       Text(
-                        value.weather!.days![0].temp.toString(),
+                        value.weather!.days![Utils.currentSelectedDate - 1].temp
+                            .toString(),
                         style: TextStyle(color: Colors.white, fontSize: 55),
                       ),
                       Text(
-                        "Mostly Clear",
+                        value
+                            .weather!
+                            .days![Utils.currentSelectedDate - 1]
+                            .conditions
+                            .toString(),
                         style: TextStyle(color: Colors.white54, fontSize: 20),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("H:24", style: TextStyle(color: Colors.white)),
+                          Text(
+                            'H: ' +
+                                value
+                                    .weather!
+                                    .days![Utils.currentSelectedDate - 1]
+                                    .tempmax
+                                    .toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
                           SizedBox(width: screenWidth * 0.05),
-                          Text("L:18", style: TextStyle(color: Colors.white)),
+                          Text(
+                            'L: ' +
+                                value
+                                    .weather!
+                                    .days![Utils.currentSelectedDate - 1]
+                                    .tempmin
+                                    .toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          CustomShowModalBottomSheet().showWeatherBottomSheet(
-                            context,
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.white38.withValues(
+                              alpha: 0.4,
+                            ),
+                            builder: (_) => Container(
+                              height: screenHeight * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white38.withValues(alpha: 0.4),
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(24),
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: screenHeight * 0.04),
+                                  const Center(child: Text('Weekly Forecast')),
+                                  SizedBox(height: screenHeight * 0.035),
+                                  SizedBox(
+                                    height: screenHeight * 0.18,
+                                    child: ListView.builder(
+                                      itemCount: Utils.weekDays().length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 10,
+                                          ),
+                                          padding: const EdgeInsets.all(33),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              45,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(Utils.weekDays()[index]),
+                                              Text(
+                                                value.weather!.days![index].temp
+                                                    .toString(),
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         },
                         child: Text("Press"),

@@ -1,5 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/utils/utils.dart';
+
+class CustomShowModalBottomSheet0 extends StatelessWidget {
+  const CustomShowModalBottomSheet0({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
+  }
+}
+
 
 class CustomShowModalBottomSheet {
   void showWeatherBottomSheet(BuildContext context) {
@@ -30,6 +41,7 @@ class CustomShowModalBottomSheet {
                   itemBuilder: (context, index) {
                     // height = height * 0.2;
                     return Container(
+
                       margin: EdgeInsets.only(left: 20, right: 10),
                       padding: EdgeInsets.all(33),
                       height: 50,
@@ -38,11 +50,17 @@ class CustomShowModalBottomSheet {
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(45),
                       ),
+                      child: Column(
+                        children: [
+                          Text(Utils.weekDays()[index])
+                        ],
+                      ),
                     );
                   },
                 ),
               ),
             ],
+
           ),
         );
       },

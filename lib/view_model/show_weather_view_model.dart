@@ -3,15 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:weather_app/repository/weather_repo.dart';
 
 import '../models/weather_location_model.dart';
+import '../utils/utils.dart';
 
 class ShowWeatherViewModel extends ChangeNotifier {
   WeatherRepo? weatherRepo;
   WeatherModel? weather;
 
-  // String location = "Pakistan,Karachi";
-  // String startDate = "2026-01-17";
-  // String endDate = "2026-01-23";
+  String location = "Pakistan,Karachi";
+  String startDate = "2026-01-28";
+  String endDate = "2026-02-03";
   bool _isLoading = false;
+  bool isMatched = false;
 
   bool get loading => _isLoading;
   String? error;
@@ -25,7 +27,6 @@ class ShowWeatherViewModel extends ChangeNotifier {
 
       if (data != null) {
         weather = WeatherModel.fromJson(data);
-        print(weather);
         notifyListeners();
       }
     } catch (e) {
@@ -34,4 +35,8 @@ class ShowWeatherViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+  void returnMatchedColor(){
+
+  }
+
 }
