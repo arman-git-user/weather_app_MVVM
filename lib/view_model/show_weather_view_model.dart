@@ -9,7 +9,7 @@ class ShowWeatherViewModel extends ChangeNotifier {
   WeatherRepo? weatherRepo;
   WeatherModel? weather;
 
-  String location = "Pakistan,Karachi";
+  String location = "Karachi";
   String startDate = "2026-01-28";
   String endDate = "2026-02-03";
   bool _isLoading = false;
@@ -34,9 +34,18 @@ class ShowWeatherViewModel extends ChangeNotifier {
     }
     _isLoading = false;
     notifyListeners();
-  }
-  void returnMatchedColor(){
 
+    String currentWeekDay = Utils.selectedWeekDay();
+    if (currentWeekDay == Utils.weekDays()[Utils.currentSelectedDate]) {
+      isMatched = true;
+      notifyListeners();
+    }
+    isMatched = false;
+    notifyListeners();
   }
 
+  //   void returnMatchedColor(){
+  // switch(Utils.){
+  //
+  // }
 }

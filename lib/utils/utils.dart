@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Utils {
-  static String location = "Pakistan,Karachi";
+  static String location = "Karachi";
 
   static DateTime now = DateTime.now();
   static int currentSelectedDate = DateTime.now().weekday;
@@ -127,5 +127,10 @@ class Utils {
       'saturday',
       'sunday',
     ];
+  }
+  static String selectedWeekDay(){
+     List<String> ListOfWeeks = weekDays();
+     String currentWeekDay = ListOfWeeks[currentSelectedDate];
+     return currentWeekDay;
   }
 }
