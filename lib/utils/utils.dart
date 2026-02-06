@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
   static String location = "Karachi";
-
+  static String iconController = TextEditingController().text.toString();
   static DateTime now = DateTime.now();
-  static int currentSelectedDate = DateTime.now().weekday;
+  static int currentSelectedDate = DateTime
+      .now()
+      .weekday;
   static String currentDate = DateFormat('yyyy-MM-dd').format(now);
   static String currentWeekDay = DateFormat('EEEE').format(now);
   late String formatForm;
@@ -117,20 +120,49 @@ class Utils {
     return ('lib/resources/assets/images/$name');
   }
 
-  static List<String> weekDays() {
-    return [
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-      'sunday',
-    ];
+  static String getIcons(String name) {
+    return ('lib/resources/assets/icons/$name');
   }
-  static String selectedWeekDay(){
-     List<String> ListOfWeeks = weekDays();
-     String currentWeekDay = ListOfWeeks[currentSelectedDate];
-     return currentWeekDay;
+
+  static List<String> weekDays() {
+    return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  }
+
+  static String selectedWeekDay() {
+    List<String> ListOfWeeks = weekDays();
+    String currentWeekDay = ListOfWeeks[currentSelectedDate];
+    return currentWeekDay;
+  }
+
+  static  String  IconsSelect(String conditions) {
+    //clear, (Rain, Partially cloudy),Partially cloudy,Overcast,(Snow, Rain, Partially cloudy),(Snow, Rain, Freezing Drizzle/Freezing Rain, Overcast),
+
+    switch (conditions) {
+      case 'clear':
+        return Utils.getIcons('MoonCloudFastWind.png');
+      case 'Rain, Partially cloudy':
+        return Utils.getIcons('MoonCloudMidRain.png');
+      case 'Partially cloudy':
+        return Utils.getIcons('MoonCloudMidRain.png');
+      case 'Overcast':
+        return Utils.getIcons('Tornado.png');
+      case 'Snow, Rain, Partially cloudy':
+        return Utils.getIcons('SunCloudMidRain.png');
+      case 'Snow, Rain, Freezing Drizzle/Freezing Rain, Overcast':
+        return Utils.getIcons('SunCloudAngledRain.png');
+
+      default:
+        return Utils.getIcons('MoonCloudMidRain.png');
+    }
+  }
+
+  static bool returnColor(index){
+    int currentDate = currentSelectedDate-1;
+    if(index == currentDate){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
