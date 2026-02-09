@@ -4,11 +4,10 @@ import '../models/weather_location_model.dart';
 import '../utils/utils.dart';
 
 class ShowWeatherViewModel extends ChangeNotifier {
-
   WeatherModel? weather;
 
   bool _isLoading = false;
-  bool isMatched = false;
+
   String? error;
 
   bool get loading => _isLoading;
@@ -16,7 +15,6 @@ class ShowWeatherViewModel extends ChangeNotifier {
   String _currentCity = "Karachi";
 
   Future<void> fetchWeatherByCity(String city) async {
-
     if (city.trim().isNotEmpty) {
       _currentCity = city.trim();
     }
@@ -26,21 +24,11 @@ class ShowWeatherViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-
-      final data = await WeatherRepo.APIData(
-        location: _currentCity,
-      );
+      final data = await WeatherRepo.APIData(location: _currentCity);
 
       weather = WeatherModel.fromJson(data);
 
       String currentWeekDay = Utils.selectedWeekDay();
-
-      if (currentWeekDay == Utils.weekDays()[Utils.currentSelectedDate]) {
-        isMatched = true;
-      } else {
-        isMatched = false;
-      }
-
     } catch (e) {
       error = e.toString();
     }

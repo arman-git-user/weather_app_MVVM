@@ -3,7 +3,7 @@ import 'dart:ui'; // 👈 required for glass blur
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/utils/utils.dart';
-import 'package:weather_app/view_model/show_weather_view_model.dart';
+import 'package:weather_app/view_model/home_view_model.dart';
 
 class CustomDraggableWeatherSheet extends StatelessWidget {
   const CustomDraggableWeatherSheet({super.key});

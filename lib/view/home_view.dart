@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/utils/utils.dart';
-import 'package:weather_app/view_model/show_weather_view_model.dart';
-import 'package:weather_app/resources/widgets/modal_bottom_sheet.dart';
+import 'package:weather_app/view_model/home_view_model.dart';
+import 'package:weather_app/resources/widgets/CustomDraggableWeatherSheet.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,11 +19,12 @@ class _HomeViewState extends State<HomeView> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+    //to disable the navigation button from phone when running our project in it
   }
 
   void _searchCity() {
     FocusScope.of(context).unfocus();
-
+//to disable the navigation button from phone when running our project in it
     context
         .read<ShowWeatherViewModel>()
         .fetchWeatherByCity(_searchController.text);
@@ -42,6 +43,7 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       body: GestureDetector(
+        //to disable the navigation button from phone when running our project in it
         behavior: HitTestBehavior.translucent,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(

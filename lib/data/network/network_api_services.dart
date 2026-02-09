@@ -29,7 +29,7 @@ class NetworkAPIServices extends BaseAPIServices {
 
         return jsonResponse;
       case 400:
-        throw BadRequestException();
+        throw BadRequestException('Enter valid city name ');
       case 401:
         throw UnauthorizedException();
       case 500:

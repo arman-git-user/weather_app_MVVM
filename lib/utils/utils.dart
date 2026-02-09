@@ -5,9 +5,7 @@ class Utils {
   static String location = "Karachi";
   static String iconController = TextEditingController().text.toString();
   static DateTime now = DateTime.now();
-  static int currentSelectedDate = DateTime
-      .now()
-      .weekday;
+  static int currentSelectedDate = DateTime.now().weekday;
   static String currentDate = DateFormat('yyyy-MM-dd').format(now);
   static String currentWeekDay = DateFormat('EEEE').format(now);
   late String formatForm;
@@ -134,7 +132,7 @@ class Utils {
     return currentWeekDay;
   }
 
-  static  String  IconsSelect(String conditions) {
+  static String IconsSelect(String conditions) {
     //clear, (Rain, Partially cloudy),Partially cloudy,Overcast,(Snow, Rain, Partially cloudy),(Snow, Rain, Freezing Drizzle/Freezing Rain, Overcast),
 
     switch (conditions) {
@@ -156,12 +154,11 @@ class Utils {
     }
   }
 
-  static bool returnColor(index){
-    int currentDate = currentSelectedDate-1;
-    if(index == currentDate){
+  static bool returnColor(index) {
+    int currentDate = currentSelectedDate - 1;
+    if (index == currentDate) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
