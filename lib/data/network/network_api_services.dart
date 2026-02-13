@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:weather_app/data/app_exception.dart';
 import 'package:weather_app/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/utils/utils.dart';
 
 class NetworkAPIServices extends BaseAPIServices {
   @override
@@ -29,7 +30,9 @@ class NetworkAPIServices extends BaseAPIServices {
 
         return jsonResponse;
       case 400:
+        Utils.isError = true;
         throw BadRequestException('Enter valid city name ');
+
       case 401:
         throw UnauthorizedException();
       case 500:

@@ -7,10 +7,11 @@ class ShowWeatherViewModel extends ChangeNotifier {
   WeatherModel? weather;
 
   bool _isLoading = false;
-
+  bool _invalidLastSearch = false;
   String? error;
-
+  bool get lastSearch => _invalidLastSearch;
   bool get loading => _isLoading;
+  bool isCurrentCityInvalid = false;
 
   String _currentCity = "Karachi";
 
@@ -29,6 +30,11 @@ class ShowWeatherViewModel extends ChangeNotifier {
       weather = WeatherModel.fromJson(data);
 
       String currentWeekDay = Utils.selectedWeekDay();
+      _invalidLastSearch = true;
+      // notifyListeners();
+      isCurrentCityInvalid = false;
+      // notifyListeners();
+
     } catch (e) {
       error = e.toString();
     }

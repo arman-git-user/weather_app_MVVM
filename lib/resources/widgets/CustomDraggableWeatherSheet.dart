@@ -98,7 +98,7 @@ class CustomDraggableWeatherSheet extends StatelessWidget {
                                     ),
                                     borderRadius: BorderRadius.circular(45),
                                   ),
-                                  child: Column(
+                                  child:value.isCurrentCityInvalid?Container(padding: const EdgeInsets.all(18)): Column(
                                     children: [
                                       Text(
                                         Utils.weekDays()[index],

@@ -12,38 +12,38 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ShowWeatherViewModel>().fetchWeatherByCity("Karachi");
+    });
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
-    //to disable the navigation button from phone when running our project in it
   }
 
   void _searchCity() {
     FocusScope.of(context).unfocus();
-//to disable the navigation button from phone when running our project in it
-    context
-        .read<ShowWeatherViewModel>()
-        .fetchWeatherByCity(_searchController.text);
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    context.read<ShowWeatherViewModel>().fetchWeatherByCity("Karachi");
+
+    context.read<ShowWeatherViewModel>().fetchWeatherByCity(
+      _searchController.text.trim(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: GestureDetector(
-        //to disable the navigation button from phone when running our project in it
         behavior: HitTestBehavior.translucent,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -55,141 +55,158 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
 
-            Consumer<ShowWeatherViewModel>(
-              builder: (context, value, child) {
+            SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
 
-                if (value.loading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (value.error != null) {
-                  return Center(child: Text(value.error.toString()));
-                }
-
-                if (value.weather == null) {
-                  return const Center(
-                    child: Text(
-                      "No weather data available",
-                      style: TextStyle(color: Colors.black, fontSize: 30),
-                    ),
-                  );
-                }
-
-                return SizedBox(
-                  height: screenHeight,
-                  width: screenWidth,
-                  child: SafeArea(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-
-                        SizedBox(
-                          width: screenWidth * 0.94,
-                          child: TextField(
-                            controller: _searchController,
-                            textInputAction: TextInputAction.search,
-                            onSubmitted: (_) => _searchCity(),
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              suffixIcon: InkWell(
-                                onTap: _searchCity,
-                                child: const Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              hint: Text(
-                                'Search City...',
-                                style: TextStyle(color: Colors.grey.shade400),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(22),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(22),
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+                  SizedBox(
+                    width: screenWidth * 0.94,
+                    child: TextField(
+                      controller: _searchController,
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (_) => _searchCity(),
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                          onTap: _searchCity,
+                          child: const Icon(Icons.search, color: Colors.white),
                         ),
-
-                        SizedBox(height: screenHeight * 0.04),
-
-                        Text(
-                          value.weather!.address.toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                          ),
+                        hintText: 'Search location...',
+                        hintStyle: TextStyle(color: Colors.grey.shade400),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(22),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
-
-                        Text(
-                          '${value.weather!.days![Utils.currentSelectedDate - 1].temp}°',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 60,
-                          ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(22),
+                          borderSide: const BorderSide(color: Colors.white),
                         ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              value
-                                  .weather!
-                                  .days![Utils.currentSelectedDate - 1]
-                                  .conditions
-                                  .toString(),
-                              style: const TextStyle(
-                                color: Colors.white54,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Image.asset(
-                              Utils.IconsSelect(
-                                value
-                                    .weather!
-                                    .days![Utils.currentSelectedDate - 1]
-                                    .conditions
-                                    .toString(),
-                              ),
-                              height: 40,
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 15),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'H: ${value.weather!.days![Utils.currentSelectedDate - 1].tempmax}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(width: screenWidth * 0.05),
-                            Text(
-                              'L: ${value.weather!.days![Utils.currentSelectedDate - 1].tempmin}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                );
-              },
+
+                  SizedBox(height: screenHeight * 0.04),
+
+                  Expanded(
+                    child: Consumer<ShowWeatherViewModel>(
+                      builder: (context, value, child) {
+                        // First load
+                        if (value.loading &&
+                            (value.weather == null ||
+                                value.lastSearch == true)) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        if (value.weather == null && value.error != null) {
+                          return Center(
+                            child: Text(
+                              value.error!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
+                            ),
+                          );
+                        }
+                        if (value.weather == null) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        final resolved = value.weather!.resolvedAddress!
+                            .toLowerCase();
+
+                        final query = _searchController.text
+                            .trim()
+                            .toLowerCase();
+
+                        if (!value.loading &&
+                            query.isNotEmpty &&
+                            !resolved.contains(query)) {
+                          value.isCurrentCityInvalid = true;
+                          return const Center(
+                            child: Text(
+                              'Enter a valid location',
+                              style: TextStyle(
+                                fontSize: 26,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+
+                        final day =
+                            value.weather!.days![Utils.currentSelectedDate - 1];
+
+                        return Column(
+                          children: [
+                            Text(
+                              '${value.weather!.address![0].toUpperCase()+ value.weather!.address!.substring(1)}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 35,
+                              ),
+                            ),
+
+                            Text(
+                              '${day.temp}°',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 60,
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  day.conditions.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Image.asset(
+                                  Utils.IconsSelect(day.conditions.toString()),
+                                  height: 40,
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 15),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'H: ${day.tempmax}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth * 0.05),
+                                Text(
+                                  'L: ${day.tempmin}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             const CustomDraggableWeatherSheet(),

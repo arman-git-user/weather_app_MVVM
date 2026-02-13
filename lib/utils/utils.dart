@@ -10,13 +10,19 @@ class Utils {
   static String currentWeekDay = DateFormat('EEEE').format(now);
   late String formatForm;
 
+  static bool isError = false;
+
+
+
+
+
   static String DateOfMonday() {
     switch (currentWeekDay.toLowerCase()) {
       case 'monday':
-        String nxt7Days = DateFormat(
+        String previousDate = DateFormat(
           'yyyy-MM-dd',
-        ).format(now.add(Duration(days: 6)));
-        return nxt7Days;
+        ).format(now.subtract(Duration(days: 0)));
+        return previousDate;
 
       case 'tuesday':
         String previousDate = DateFormat(
@@ -64,50 +70,51 @@ class Utils {
   static String DateAfter7Days() {
     switch (currentWeekDay.toLowerCase()) {
       case 'monday':
-        String nxt7Days = DateFormat(
-          'yyyy-MM-dd',
-        ).format(now.add(Duration(days: 6)));
-        return nxt7Days;
 
-      case 'tuesday':
-        DateTime previousDate = now.subtract(Duration(days: 1));
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(now.add(Duration(days: 6)));
+        return nxt7days;
+
+      case 'tuesday':
+        DateTime DateOfMonday = now.subtract(Duration(days: 1));
+        String nxt7days = DateFormat(
+          'yyyy-MM-dd',
+        ).format(DateOfMonday.add(Duration(days: 6)));
 
         return nxt7days;
       case 'wednesday':
-        DateTime previousDate = now.subtract(Duration(days: 2));
+        DateTime DateOfMonday = now.subtract(Duration(days: 2));
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(DateOfMonday.add(Duration(days: 6)));
 
         return nxt7days;
       case 'thursday':
-        DateTime previousDate = now.subtract(Duration(days: 3));
+        DateTime DateOfMonday = now.subtract(Duration(days: 3));
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(DateOfMonday.add(Duration(days: 6)));
         return nxt7days;
       case 'friday':
-        DateTime previousDate = now.subtract(Duration(days: 4));
+        DateTime DateOfMonday = now.subtract(Duration(days: 4));
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(DateOfMonday.add(Duration(days: 6)));
         print(currentDate);
         return nxt7days;
       case 'saturday':
-        DateTime previousDate = now.subtract(Duration(days: 5));
+        DateTime DateOfMonday = now.subtract(Duration(days: 5));
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(DateOfMonday.add(Duration(days: 6)));
 
         return nxt7days;
       case 'sunday':
-        DateTime previousDate = now.subtract(Duration(days: 6));
+
         String nxt7days = DateFormat(
           'yyyy-MM-dd',
-        ).format(previousDate.add(Duration(days: 6)));
+        ).format(now);
         return nxt7days;
       default:
         return "No date calculated";
